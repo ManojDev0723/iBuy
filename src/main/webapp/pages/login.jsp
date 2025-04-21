@@ -12,7 +12,7 @@
 <section class="login-section">
     <div class="login-box">
       <h2>Login to Your Account</h2>
-      <form action="LoginServlet" method="POST"> <!-- Change to appropriate servlet or JSP handler -->
+      <form action="${pageContext.request.contextPath}/LogInController" method="POST"> 
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" name="email" required placeholder="you@example.com" />
