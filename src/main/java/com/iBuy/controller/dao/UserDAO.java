@@ -18,16 +18,17 @@ public class UserDAO {
 	 
 	 public boolean register (User user) {
 		 boolean isUserRegistered = false;
-		 String query = "INSERT INTO users (name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, ?)";
+		 String query = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
 		 if(conn != null) {
 			 try {
-				 ps = conn.prepareStatement(query);
-				 ps.setString(1, user.getName());
-					ps.setString(2, user.getEmail());
-					ps.setString(3, user.getPassword()); 
-					ps.setString(4, user.getPhone());
-					ps.setString(5, user.getAddress());
-					ps.setString(6, user.getRole());
+				 	ps = conn.prepareStatement(query);
+				 	ps.setString(1, user.getName());
+				 	ps.setString(2, user.getEmail());
+				 	ps.setString(3, user.getPassword()); 
+					/*
+					 * ps.setString(4, user.getPhone()); ps.setString(5, user.getAddress());
+					 */
+				 	ps.setString(6, user.getRole());
 					
 					if (ps.executeUpdate()>0) {
 						isUserRegistered = true;
@@ -39,6 +40,17 @@ public class UserDAO {
 		 }
 		 return isUserRegistered;
 	 }
+	 
+	 public boolean deleteUser(int userId) throws ClassNotFoundException, SQLException {
+	        String query = "DELETE FROM users WHERE user_id=?";
+	        try (Connection conn = DatabaseConnection.getConnection();
+	             PreparedStatement ps = conn.prepareStatement(query)) {
+	             
+	            ps.setInt(1, userId);
+	            return ps.executeUpdate() > 0;
+	        }
+	 }
+	       
 	 
 	 public ArrayList<User> getAllUsers(){
 		 ArrayList<User> users = new ArrayList<>();
@@ -53,8 +65,8 @@ public class UserDAO {
 						user.setName(userSet.getString("name"));
 						user.setEmail(userSet.getString("email"));
 						user.setPassword(userSet.getString("password"));
-						user.setPhone(userSet.getString("phone"));
-						user.setAddress(userSet.getString("address"));
+						/* user.setPhone(userSet.getString("phone")); */
+						/* user.setAddress(userSet.getString("address")); */
 						user.setRole(userSet.getString("role"));
 						user.setCreatedAt(userSet.getTimestamp("created_at"));
 						users.add(user); 
@@ -86,8 +98,9 @@ public class UserDAO {
 								userSet.getString("name"), 
 								userSet.getString("email"),
 								userSet.getString("password"), 
-								userSet.getString("phone"), 
-								userSet.getString("address"),
+								/*
+								 * userSet.getString("phone"), userSet.getString("address"),
+								 */
 								userSet.getString("role"), 
 								userSet.getTimestamp("created_at"));
 					}

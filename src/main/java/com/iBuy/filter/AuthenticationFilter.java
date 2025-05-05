@@ -1,4 +1,4 @@
-package com.iBuy.filter;
+ package com.iBuy.filter;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = { "/pages/*" })
+@WebFilter(urlPatterns = { "/pages/product.jsp*" })
 public class AuthenticationFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -38,22 +38,31 @@ public class AuthenticationFilter implements Filter {
 		HttpSession session = req.getSession(false);
 		boolean loggedIn = session != null && session.getAttribute("userWithSession") != null;
 
-		if (!loggedIn && (uri.endsWith("login.jsp") || uri.endsWith("LogInController"))) {
-			chain.doFilter(request, response);
-			return;
-		}
-		// Skipping filter for login page and login controller
-		if (loggedIn) {
-			if (uri.endsWith("Login.jsp") || uri.endsWith("LogInController")) {
+		/*
+		 * if (!loggedIn && (uri.endsWith("login.jsp") ||
+		 * uri.endsWith("LogInController"))) { chain.doFilter(request, response);
+		 * return; } // Skipping filter for login page and login controller if
+		 * (loggedIn) { if (uri.endsWith("login.jsp") ||
+		 * uri.endsWith("LogInController")) {
+		 * 
+		 * res.sendRedirect(req.getContextPath() + "/pages/Dashboard.jsp"); } else {
+		 * chain.doFilter(request, response); return; } } else {
+		 * res.sendRedirect(req.getContextPath() + "/pages/login.jsp"); }
+		 */
+		 if (uri.endsWith("/login.jsp") || uri.endsWith("/LogInController")) {
+	            if (loggedIn) {
+	                res.sendRedirect(req.getContextPath() + "/pages/dashboard.jsp");
+	                return;
+	            }
+	            chain.doFilter(request, response);
+	            return;
+	        }
 
-				res.sendRedirect(req.getContextPath() + "/pages/Dashboard.jsp");
-			} else {
-				chain.doFilter(request, response);
-				return;
-			}
-		} else {
-			res.sendRedirect(req.getContextPath() + "/pages/Login.jsp");
-		}
+	        // For all other protected resources
+	        if (!loggedIn) {
+	            res.sendRedirect(req.getContextPath() + "/pages/login.jsp");
+	            return;
+	        }
 
 	}
 }
