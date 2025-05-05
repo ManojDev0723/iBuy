@@ -7,21 +7,25 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	private String phone;
-	private String address;
+	/*
+	 * private String phone; private String address;
+	 */
 	private String role;
 	private Timestamp createdAt;
-	
+
 	public User() {
-		}
-	
-	public User(int userId, String name,String email, String password, String phone, String address, String role, Timestamp createdAt) {
+	}
+
+	public User(int userId, String name, String email, String password, String role, Timestamp createdAt) {
 		this.userId = userId;
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.phone = phone;
-		this.address = address;
+		/*
+		 * this.phone = phone;
+		 * 
+		 * this.address = address;
+		 */
 		this.role = role;
 		this.createdAt = createdAt;
 	}
@@ -58,21 +62,15 @@ public class User {
 		this.password = password;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	/*
+	 * public String getPhone() { return phone; }
+	 * 
+	 * public void setPhone(String phone) { this.phone = phone; }
+	 * 
+	 * public String getAddress() { return address; }
+	 * 
+	 * public void setAddress(String address) { this.address = address; }
+	 */
 
 	public String getRole() {
 		return role;
@@ -89,6 +87,5 @@ public class User {
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-		
 
 }
